@@ -1,0 +1,18 @@
+import express from "express";
+import dotenv from "dotenv";
+import connectDb from "./src/config/db.js";
+dotenv.config();
+
+connectDb();
+
+const app = express();
+
+
+app.get("/", (req,res) => {
+    res.send("The app demo is created");
+});
+
+app.listen(process.env.PORT || 8080, () => {
+    console.log(`The server is running at ${process.env.PORT} `);
+});
+
