@@ -11,8 +11,9 @@ const createNote = async (req, res, next) => {
       user: req.user.id,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Note for the User has been created sucessfully",
+      note,
     });
   } catch (error) {
     next(error);
@@ -22,11 +23,8 @@ const createNote = async (req, res, next) => {
 const getNotes = async (req, res, next) => {
   try {
     const notes = await Note.find({ user: req.user.id });
-    if (!notes) {
-      return res.status(404).json({ message: "Note for the user not found." });
-    }
 
-    res.json(notes);
+    return res.json(notes);
   } catch (error) {
     next(error);
   }
@@ -34,7 +32,7 @@ const getNotes = async (req, res, next) => {
 
 const updateNote = async (req, res, next) => {
   try {
-    const updatedUser = await Note.findOneAndUpdate(
+    const updatedNote = await Note.findOneAndUpdate(
       {
         _id: req.params.id,
         user: req.user.id,
@@ -46,14 +44,15 @@ const updateNote = async (req, res, next) => {
       },
     );
 
-    if (!updateNote) {
+    if (!updatedNote) {
       return res.status(404).json({
         message: "The note for the User not found",
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Updated sucessfully",
+      note: updatedNote,
     });
   } catch (error) {
     next(error);
@@ -72,7 +71,7 @@ const deleteNote = async (req, res, next) => {
         message: "Note not found",
       });
     }
-    res.json({ message: "Note deleted sucessfully" });
+    return res.json({ message: "Note deleted sucessfully" });
   } catch (error) {
     next(error);
   }

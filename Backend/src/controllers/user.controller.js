@@ -40,14 +40,25 @@ const getCurrentUser = async(req,res,next) => {
 
 const updateUser = async(req,res,next) => {
     try {
+        if(req.user.id !== req.params.id){
+            return res.status(403).json({
+                message : "You can update only your own profile"
+            });
+        }
+
+        const updates = { ...req.body };
+        if(updates.password){
+            updates.password = await bcrypt.hash(updates.password, 10);
+        }
+
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updates,
             {
                 new : true,
                 runValidators : true
             }
-        )
+        ).select("-password");
 
         if(!updatedUser){
             return res.status(404).json({
@@ -55,18 +66,23 @@ const updateUser = async(req,res,next) => {
             });
         }
 
-        res.status(200).json({
-            message : "User updated successfully"
+        return res.status(200).json({
+            message : "User updated successfully",
+            user : updatedUser
         });
-
-        res.json(updatedUser);
     } catch (error) {
         next(error);
     }
 }
 
-const delteUser = async(req,res, next) => {
+const deleteUser = async(req,res, next) => {
     try {
+        if(req.user.id !== req.params.id){
+            return res.status(403).json({
+                message : "You can delete only your own profile"
+            });
+        }
+
         const deletedUser = await User.findByIdAndDelete(
            req.params.id
         );
@@ -87,4 +103,4 @@ const delteUser = async(req,res, next) => {
 
 
 
-export { signUp, getCurrentUser, updateUser, delteUser };
+export { signUp, getCurrentUser, updateUser, deleteUser };
