@@ -38,6 +38,53 @@ const getCurrentUser = async(req,res,next) => {
     }
 }
 
+const updateUser = async(req,res,next) => {
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {
+                new : true,
+                runValidators : true
+            }
+        )
+
+        if(!updatedUser){
+            return res.status(404).json({
+                message :"User not found"
+            });
+        }
+
+        res.status(200).json({
+            message : "User updated successfully"
+        });
+
+        res.json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const delteUser = async(req,res, next) => {
+    try {
+        const deletedUser = await User.findByIdAndDelete(
+           req.params.id
+        );
+
+        if(!deletedUser){
+            return res.status(404).json({
+                message : "User not found"
+            });
+        }
+
+        res.status(200).json({
+            message : "User deleted sucessfully"
+        });
+    } catch (error) {
+       next(error); 
+    }
+}
 
 
-export { signUp, getCurrentUser };
+
+export { signUp, getCurrentUser, updateUser, delteUser };
