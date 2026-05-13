@@ -29,6 +29,19 @@ const signUp = async(req,res) =>{
     }
 }
 
+const getCurrentUser = async(req,res) => {
+    try {
+        const user = await User.findById(req.user.id)
+        .select("-password");
+
+        res.json(user);
+    } catch (error) {
+        res.status(501).json({
+            message : error.message
+        });
+    }
+}
 
 
-export { signUp };
+
+export { signUp, getCurrentUser };
