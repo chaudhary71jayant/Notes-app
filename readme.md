@@ -41,10 +41,16 @@ Notes-app/
    - `PORT=3000`
    - `MONGODB_URI=your_mongodb_connection_string`
    - `JWT_SECRET_KEY=your_secret_key`
+   - `FRONTEND_URL=https://your-frontend-domain.com`
 4. Start backend:
-   - `npm start`
+   - `npm run dev` (local development with nodemon)
+   - `npm start` (production mode)
 
 Backend runs on: `http://localhost:3000`
+
+Tip:
+- `FRONTEND_URL` supports comma-separated origins if needed, for example:
+  - `FRONTEND_URL=http://localhost:5173,https://your-frontend-domain.com`
 
 ## Frontend Setup
 
