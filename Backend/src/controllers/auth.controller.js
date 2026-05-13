@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import generateToken from "../utils/tokenGenerator.util.js";
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
         const { email, password} = req.body;
 
@@ -29,9 +29,7 @@ const login = async (req, res) => {
             token
         });
     } catch (error) {
-        res.status(500).json({
-            message : error.message
-        });
+        next(error);
     }
 }
 

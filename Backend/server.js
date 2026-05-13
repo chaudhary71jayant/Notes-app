@@ -16,6 +16,17 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/notes",noteRoutes);
 
+
+//moddleware
+app.use((err,req,res,next) => {
+    console.error("Error stack : ", err.stack);
+
+    res.status(err.status || 500).json({
+        success : false,
+        message : err.message || "Internal server Error",
+    });
+})
+
 app.get("/", (req,res) => {
     res.send("The app demo is created");
 });

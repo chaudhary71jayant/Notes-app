@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
-const signUp = async(req,res) =>{
+const signUp = async(req,res,next) =>{
     try {
         const { name,email,age,password } = req.body;
 
@@ -23,22 +23,18 @@ const signUp = async(req,res) =>{
             message : "User has been created sucessfully"
         })
     } catch (error) {
-        res.status(500).json({
-            message : error.message
-        });
+        next(error);
     }
 }
 
-const getCurrentUser = async(req,res) => {
+const getCurrentUser = async(req,res,next) => {
     try {
         const user = await User.findById(req.user.id)
         .select("-password");
 
         res.json(user);
     } catch (error) {
-        res.status(501).json({
-            message : error.message
-        });
+        next(error);
     }
 }
 
