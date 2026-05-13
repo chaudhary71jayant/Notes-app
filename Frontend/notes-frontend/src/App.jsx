@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import NotesDashboard from "./components/NotesDashBoard";
@@ -8,7 +8,7 @@ function App() {
   const token = localStorage.getItem("token");
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route
           path="/"
@@ -29,7 +29,7 @@ function App() {
           element={<Navigate to={token ? "/notes" : "/login"} replace />}
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
