@@ -23,6 +23,16 @@ const Login = () => {
       const res = await api.post("/auth/login", form);
 
       if (!res.data?.token) {
+        const responseLooksLikeHtml =
+          typeof res.data === "string" &&
+          res.data.toLowerCase().includes("<!doctype html");
+
+        if (responseLooksLikeHtml) {
+          throw new Error(
+            "Login API is misconfigured. Set VITE_API_BASE_URL to your backend URL and redeploy frontend.",
+          );
+        }
+
         throw new Error("Token was not returned by the API.");
       }
 
