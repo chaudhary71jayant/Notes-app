@@ -4,6 +4,12 @@ Full-stack notes application with:
 - Backend: Node.js, Express, MongoDB, JWT auth
 - Frontend: React + Vite
 
+## Live Demo
+
+Frontend: https://make-notes-nyn5.onrender.com/#/login
+Backend: https://notes-app-s5vv.onrender.com
+
+
 ## Project Structure
 
 ```text
