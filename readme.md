@@ -6,8 +6,8 @@ Full-stack notes application with:
 
 ## Live Demo
 
-Frontend: https://make-notes-nyn5.onrender.com/#/login
-Backend: https://notes-app-s5vv.onrender.com
+  - Frontend: https://make-notes-nyn5.onrender.com/#/login
+  - Backend: https://notes-app-s5vv.onrender.com
 
 
 ## Project Structure
