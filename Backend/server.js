@@ -16,8 +16,12 @@ const app = express();
 const PORT = Number(process.env.PORT) || 8080;
 const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/$/, ""))
   .filter(Boolean);
+
+// Render terminates HTTPS before forwarding requests to this Express app.
+// Trusting that proxy keeps production cookie behaviour consistent.
+app.set("trust proxy", 1);
 
 app.use((req, res, next) => {
   const requestOrigin = req.headers.origin;
@@ -26,7 +30,9 @@ app.use((req, res, next) => {
     return next();
   }
 
-  if (allowedOrigins.includes(requestOrigin)) {
+  const normalizedOrigin = requestOrigin.replace(/\/$/, "");
+
+  if (allowedOrigins.includes(normalizedOrigin)) {
     res.setHeader("Access-Control-Allow-Origin", requestOrigin);
     res.setHeader("Vary", "Origin");
     res.setHeader(
@@ -79,4 +85,3 @@ app.get("/", (req,res) => {
 app.listen(PORT, () => {
     console.log(`The server is running at ${PORT}`);
 });
-

@@ -23,7 +23,10 @@ const Login = () => {
     await api.post("/auth/login", form);
     navigate("/notes");
   } catch (err) {
-    setError(err.response?.data?.message || "Login failed");
+    setError(
+      err.response?.data?.message ||
+        "Unable to reach the server. Please try again in a moment.",
+    );
   } finally {
     setLoading(false);
   }
