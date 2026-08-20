@@ -234,8 +234,10 @@ const NotesDashboard = () => {
               {notes.map((note) => (
                 <li key={note._id} className="note-card">
                   <h3>{note.title}</h3>
-                  <p className="note-description">{note.description}</p>
-                  <p className="note-content">{note.content}</p>
+                  <div className="note-body">
+                    <p className="note-description">{note.description}</p>
+                    <p className="note-content">{note.content}</p>
+                  </div>
                   <div className="actions-row">
                     <button
                       className="btn-outline"
