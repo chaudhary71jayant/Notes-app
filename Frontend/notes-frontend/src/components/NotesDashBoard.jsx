@@ -35,7 +35,6 @@ const NotesDashboard = () => {
         setNotes(Array.isArray(notesResponse.data) ? notesResponse.data : []);
       } catch (err) {
         const message = err.response?.data?.message || "Session expired. Login again.";
-        localStorage.removeItem("token");
         setError(message);
         navigate("/login");
       } finally {
@@ -111,9 +110,14 @@ const NotesDashboard = () => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+  const logout = async () => {
+    try {
+      await api.post("/auth/logout");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      navigate("/login");
+    }
   };
 
   const deleteAccount = async () => {
@@ -126,7 +130,6 @@ const NotesDashboard = () => {
 
     try {
       await api.delete(`/users/delete/${profile._id}`);
-      localStorage.removeItem("token");
       navigate("/signup");
     } catch (err) {
       setError(err.response?.data?.message || "Unable to delete account");

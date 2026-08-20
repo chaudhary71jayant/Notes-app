@@ -15,35 +15,19 @@ const Login = () => {
   };
 
   const handleLogin = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    setError("");
+  event.preventDefault();
+  setLoading(true);
+  setError("");
 
-    try {
-      const res = await api.post("/auth/login", form);
-
-      if (!res.data?.token) {
-        const responseLooksLikeHtml =
-          typeof res.data === "string" &&
-          res.data.toLowerCase().includes("<!doctype html");
-
-        if (responseLooksLikeHtml) {
-          throw new Error(
-            "Login API is misconfigured. Set VITE_API_BASE_URL to your backend URL and redeploy frontend.",
-          );
-        }
-
-        throw new Error("Token was not returned by the API.");
-      }
-
-      localStorage.setItem("token", res.data.token);
-      navigate("/notes");
-    } catch (err) {
-      setError(err.response?.data?.message || err.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    await api.post("/auth/login", form);
+    navigate("/notes");
+  } catch (err) {
+    setError(err.response?.data?.message || "Login failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="auth-shell">

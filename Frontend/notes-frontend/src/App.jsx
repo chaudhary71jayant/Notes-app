@@ -5,15 +5,10 @@ import NotesDashboard from "./components/NotesDashBoard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const token = localStorage.getItem("token");
-
   return (
     <HashRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<Navigate to={token ? "/notes" : "/login"} replace />}
-        />
+        <Route path="/" element={<Navigate to="/notes" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route
@@ -24,10 +19,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="*"
-          element={<Navigate to={token ? "/notes" : "/login"} replace />}
-        />
+        <Route path="*" element={<Navigate to="/notes" replace />} />
       </Routes>
     </HashRouter>
   );

@@ -1,10 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import connectDb from "./src/config/db.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/user.routes.js";
 import noteRoutes from "./src/routes/notes.routes.js";
+
+
 dotenv.config();
+
 
 connectDb();
 
@@ -26,17 +30,24 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", requestOrigin);
     res.setHeader("Vary", "Origin");
     res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+        "Access-Control-Allow-Methods",
+        "GET,POST,PUT,PATCH,DELETE,OPTIONS"
     );
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Credentials",
+        "true"
+    );
 
     if (req.method === "OPTIONS") {
-      return res.sendStatus(204);
+        return res.sendStatus(204);
     }
 
     return next();
-  }
+}
 
   return res.status(403).json({
     success: false,
@@ -44,6 +55,7 @@ app.use((req, res, next) => {
   });
 });
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/auth",authRoutes);

@@ -1,9 +1,32 @@
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import api from "../api";
 
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
 
-  if (!token) {
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await api.get("/users/profile");
+        setAuthenticated(true);
+      } catch (error) {
+        setAuthenticated(false);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!authenticated) {
     return <Navigate to="/login" replace />;
   }
 

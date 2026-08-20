@@ -298,6 +298,7 @@ button:active {
   border-radius: 14px;
   background: linear-gradient(145deg, #fff, #faf7ee);
   display: grid;
+  max-height: 40%;
   gap: 0.55rem;
 }
 
@@ -306,6 +307,8 @@ button:active {
 }
 
 .note-description {
+  /* overflow: hidden; */
+  text-overflow: clip;
   font-size: 0.95rem;
   color: var(--text-soft);
 }
